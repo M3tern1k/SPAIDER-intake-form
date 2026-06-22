@@ -532,7 +532,16 @@
   </div>
 
   <script type="module">
-    import { upload } from 'https://esm.sh/@vercel/blob@2.4.1/client';
+    // Loaded lazily inside the submit handler (not as a top-level import) so that
+    // a slow/blocked CDN request can never break the rest of the page's interactivity
+    // (timeline buttons, consent checkboxes, etc.) — those don't depend on this at all.
+    let uploadModulePromise = null;
+    function getUploadFn() {
+      if (!uploadModulePromise) {
+        uploadModulePromise = import('https://esm.sh/@vercel/blob@2.4.1/client').then(m => m.upload);
+      }
+      return uploadModulePromise;
+    }
 
     let uploadedFiles = [];
     let selectedTimeline = '';
@@ -609,6 +618,10 @@
         // Step 1: upload files directly to Vercel Blob storage (bypasses
         // Formspree's 25MB-per-file / 30-second request limits entirely).
         const fileLinks = [];
+
+        // Only fetch the upload library now, right when it's actually needed.
+        const upload = uploadedFiles.length > 0 ? await getUploadFn() : null;
+
         for (let i = 0; i < uploadedFiles.length; i++) {
           const file = uploadedFiles[i];
           submitBtn.textContent = 'Uploading file ' + (i + 1) + ' of ' + uploadedFiles.length + '...';
