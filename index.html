@@ -615,13 +615,23 @@
           uploadStatus.textContent = 'Uploading "' + file.name + '"...';
           uploadStatus.classList.remove('hidden');
 
-          const blob = await upload(file.name, file, {
-            access: 'public',
-            handleUploadUrl: '/api/upload',
-            onUploadProgress: (progress) => {
-              uploadStatus.textContent = 'Uploading "' + file.name + '"... ' + Math.round(progress.percentage) + '%';
-            },
-          });
+          const abortController = new AbortController();
+          const timeoutId = setTimeout(() => abortController.abort(), 10 * 60 * 1000); // 10 min ceiling so it can never hang silently forever
+
+          let blob;
+          try {
+            blob = await upload(file.name, file, {
+              access: 'public',
+              handleUploadUrl: '/api/upload',
+              multipart: true, // chunks large files into parts uploaded in parallel — far more reliable than one giant request, which can hang
+              abortSignal: abortController.signal,
+              onUploadProgress: (progress) => {
+                uploadStatus.textContent = 'Uploading "' + file.name + '"... ' + Math.round(progress.percentage) + '%';
+              },
+            });
+          } finally {
+            clearTimeout(timeoutId);
+          }
 
           fileLinks.push({ name: file.name, url: blob.url, sizeMB: (file.size / 1024 / 1024).toFixed(1) });
         }
