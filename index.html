@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spaider AI - Intake Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      min-height: 100vh;
+      background: #f5f5f5;
+    }
+
+    .page-layout {
+      display: block;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2.5rem 2rem;
+      background: #242424;
+      border-radius: 12px;
+    }
+
+    .logo-img {
+      display: block;
+      max-width: 360px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 2rem;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .header p {
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    .form-wrapper {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .form-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .form-section h2,
+    .form-section h3 {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #242424;
+    }
+
+    .form-section h2 {
+      font-size: 16px;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    input[type="file"] {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      margin-bottom: 1rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    input[type="file"] {
+      border-style: dashed;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem;
+    }
+
+    .file-warning {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-bottom: 0.75rem;
+    }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      background: #f9f9f9;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #242424;
+    }
+
+    .file-remove {
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #242424;
+      font-size: 14px;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.75rem;
+      cursor: pointer;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .timeline-btn {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      color: #242424;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    .timeline-btn.selected {
+      border: 2px solid #ffd90b;
+      background: #fffbf0;
+    }
+
+    .timeline-icon {
+      font-size: 20px;
+      margin-bottom: 0.5rem;
+    }
+
+    .consent-section {
+      border-top: 1px solid #ddd;
+      padding-top: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      cursor: pointer;
+      color: #242424;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .consent-label input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.75rem;
+      margin-top: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #ffd90b;
+      color: #242424;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 3rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .submit-btn:disabled {
+      background: #e0e0e0;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    .next-steps {
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+    }
+
+    .next-steps h3 {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      color: #242424;
+    }
+
+    .next-steps-content {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .next-step-item {
+      margin-bottom: 1rem;
+    }
+
+    .next-step-item strong {
+      color: #242424;
+    }
+
+    .success-message {
+      text-align: center;
+      padding: 3rem 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .success-message h1 {
+      font-size: 24px;
+      margin-bottom: 1rem;
+      color: #242424;
+    }
+
+    .success-message p {
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-overlay:not(.hidden) {
+      display: flex;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .modal-card h2 {
+      font-size: 22px;
+      font-weight: 500;
+      color: #242424;
+      margin-bottom: 1rem;
+    }
+
+    .modal-card p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-close-btn {
+      padding: 0.75rem 2rem;
+      background: #ffd90b;
+      color: #242424;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+    }
+  </style>
+</head>
+<body>
+  <!-- Thank You Popup -->
+  <div id="thankYouModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h2>Thank you!</h2>
+      <p>Your form has been submitted. SPAIDER AI will reply soon.</p>
+      <button type="button" id="modalCloseBtn" class="modal-close-btn">Got it</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message hidden">
+      <h1>Thank you for your submission.</h1>
+      <p>We've received your intake form. Our team will review and send you a quote with a price range within 3 working days.</p>
+      <p>We'll be in touch at <strong id="successEmail"></strong></p>
+    </div>
+
+    <!-- Form -->
+    <div id="formContainer" class="page-layout">
+      <div class="form-column">
+        <!-- Header -->
+        <div class="header">
+          <img src="logo+slogan_w+y.png" alt="Spaider AI logo" class="logo-img">
+          <h1>The AI wave is here.</h1>
+          <h1>Get optimized results faster.</h1>
+          <p>3 optimized results in 5 days for the price of 1 simulation.</p>
+        </div>
+
+        <form id="intakeForm" class="form-wrapper">
+          <!-- Contact Info -->
+          <div class="form-section">
+            <h2>Please fill in the details.</h2>
+            <div class="form-row">
+              <input type="text" id="firstName" placeholder="First name" required>
+              <input type="text" id="lastName" placeholder="Last name" required>
+            </div>
+            <div class="form-row">
+              <input type="email" id="email" placeholder="Email address" required>
+              <input type="text" id="company" placeholder="Company name" required>
+            </div>
+          </div>
+
+          <!-- File Upload -->
+          <div class="form-section">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #242424;">
+              Upload files (up to 3 files, 250MB max per file). Files upload directly to secure storage, so large STEP files are fine.
+            </label>
+            <input type="file" id="fileInput" multiple>
+            <div id="fileSizeWarning" class="file-warning hidden"></div>
+            <div id="uploadStatus" class="file-warning hidden" style="color: #666;"></div>
+            <div id="fileList" class="file-list"></div>
+          </div>
+
+          <!-- Optimization -->
+          <div class="form-section">
+            <h3>What are you optimizing for?</h3>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="optimization" value="aero">
+                Aerodynamics (drag, lift, flow efficiency).
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="optimization" value="heat">
+                Heat Transfer (cooling, thermal management).
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="optimization" value="struct">
+                Structural (stress, deformation, durability).
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="optimization" value="em">
+                Computational Electromagnetics.
+              </label>
+            </div>
+          </div>
+
+          <!-- Problem -->
+          <div class="form-section">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #242424;">
+              Explain the problem you want to solve in detail.
+            </label>
+            <textarea id="problem" placeholder="Describe your challenge..." required></textarea>
+          </div>
+
+          <!-- Boundary Conditions -->
+          <div class="form-section">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #242424;">
+              What are your working conditions (boundary conditions)?
+            </label>
+            <textarea id="boundaryConditions" placeholder="Operating conditions, constraints, materials..." required></textarea>
+          </div>
+
+          <!-- Simulation Goals -->
+          <div class="form-section">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #242424;">
+              Specify all your simulation goals.
+            </label>
+            <textarea id="simulationGoals" placeholder="What do you want to achieve?" required></textarea>
+          </div>
+
+          <!-- Technical & Functional Constraints -->
+          <div class="form-section">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; color: #242424;">
+              List all technical and functional constraints for this project.
+            </label>
+            <textarea id="constraints" placeholder="e.g. material limits, regulatory standards, weight or size limits, software compatibility, budget..." required></textarea>
+          </div>
+
+          <!-- Timeline -->
+          <div class="form-section">
+            <h3>By when would you like us to deliver the analysis?</h3>
+            <div class="timeline-grid">
+              <button type="button" class="timeline-btn" data-timeline="urgent">
+                <div class="timeline-icon">⚡</div>
+                5 working days
+              </button>
+              <button type="button" class="timeline-btn" data-timeline="standard">
+                <div class="timeline-icon">📅</div>
+                In 2–3 weeks is fine
+              </button>
+              <button type="button" class="timeline-btn" data-timeline="extended">
+                <div class="timeline-icon">🗓️</div>
+                In 4-8 weeks is fine
+              </button>
+            </div>
+          </div>
+
+          <!-- NDA -->
+          <div class="form-section">
+            <label class="checkbox-label">
+              <input type="checkbox" id="nda">
+              Please select if you require an NDA.
+            </label>
+          </div>
+
+          <!-- Consent -->
+          <div class="consent-section">
+            <label class="consent-label">
+              <input type="checkbox" id="consent1" required>
+              <span>I consent to have this website store my submitted information so they can respond to my inquiry.</span>
+            </label>
+            <label class="consent-label">
+              <input type="checkbox" id="consent2" required>
+              <span>I have read and agree to the Terms and Conditions and Privacy Policy.</span>
+            </label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" id="submitBtn" class="submit-btn">Submit intake form</button>
+
+          <!-- Next Steps -->
+          <div class="next-steps">
+            <h3>What happens next</h3>
+            <div class="next-steps-content">
+              <div class="next-step-item">
+                <strong>1. Quote</strong> — We'll send you a quote with a price range within 3 working days.
+              </div>
+              <div class="next-step-item">
+                <strong>2. Review</strong> — You review and accept the proposal.
+              </div>
+              <div class="next-step-item">
+                <strong>3. Payment</strong> — We provide an exact quote. You accept and pay 30%.
+              </div>
+              <div class="next-step-item">
+                <strong>4. Analysis</strong> — Our team runs the simulation.
+              </div>
+              <div class="next-step-item">
+                <strong>5. Delivery</strong> — We meet with you to explain results, provide the report, and discuss next steps.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { upload } from 'https://esm.sh/@vercel/blob@2.4.1/client';
+
+    let uploadedFiles = [];
+    let selectedTimeline = '';
+
+    const timelineLabels = {
+      urgent: '5 working days',
+      standard: 'In 2–3 weeks is fine',
+      extended: 'In 4-8 weeks is fine'
+    };
+
+    // File handling
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const fileSizeWarning = document.getElementById('fileSizeWarning');
+
+    const MAX_FILES = 3;
+    const MAX_FILE_SIZE = 250 * 1024 * 1024; // 250MB per file (enforced again server-side in api/upload.js)
+
+    fileInput.addEventListener('change', (e) => {
+      const newFiles = Array.from(e.target.files || []);
+      fileInput.value = ''; // reset so the same file can be re-selected after a removal
+
+      const totalFiles = uploadedFiles.length + newFiles.length;
+      if (totalFiles > MAX_FILES) {
+        fileSizeWarning.textContent = 'Maximum ' + MAX_FILES + ' files allowed. You\'re trying to upload ' + totalFiles + '.';
+        fileSizeWarning.classList.remove('hidden');
+        return;
+      }
+
+      const oversizedFiles = newFiles.filter(f => f.size > MAX_FILE_SIZE);
+      if (oversizedFiles.length > 0) {
+        const maxMB = MAX_FILE_SIZE / 1024 / 1024;
+        const names = oversizedFiles.map(f => f.name + ' (' + (f.size / 1024 / 1024).toFixed(1) + 'MB)').join(', ');
+        fileSizeWarning.textContent = 'Each file must be ' + maxMB + 'MB or smaller. Too large: ' + names;
+        fileSizeWarning.classList.remove('hidden');
+        return;
+      }
+
+      fileSizeWarning.classList.add('hidden');
+      uploadedFiles.push(...newFiles);
+      renderFiles();
+    });
+
+    function renderFiles() {
+      fileList.innerHTML = uploadedFiles.map((file, idx) => {
+        return '<div class="file-item"><span>' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(1) + 'MB)</span><button type="button" class="file-remove" onclick="removeFile(' + idx + ')">✕</button></div>';
+      }).join('');
+    }
+
+    window.removeFile = function(idx) {
+      uploadedFiles.splice(idx, 1);
+      renderFiles();
+    };
+
+    // Timeline selection
+    document.querySelectorAll('.timeline-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.timeline-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedTimeline = btn.dataset.timeline;
+      });
+    });
+
+    // Form submission
+    document.getElementById('intakeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const uploadStatus = document.getElementById('uploadStatus');
+      submitBtn.disabled = true;
+
+      try {
+        // Step 1: upload files directly to Vercel Blob storage (bypasses
+        // Formspree's 25MB-per-file / 30-second request limits entirely).
+        const fileLinks = [];
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          const file = uploadedFiles[i];
+          submitBtn.textContent = 'Uploading file ' + (i + 1) + ' of ' + uploadedFiles.length + '...';
+          uploadStatus.textContent = 'Uploading "' + file.name + '"...';
+          uploadStatus.classList.remove('hidden');
+
+          const blob = await upload(file.name, file, {
+            access: 'public',
+            handleUploadUrl: '/api/upload',
+            onUploadProgress: (progress) => {
+              uploadStatus.textContent = 'Uploading "' + file.name + '"... ' + Math.round(progress.percentage) + '%';
+            },
+          });
+
+          fileLinks.push({ name: file.name, url: blob.url, sizeMB: (file.size / 1024 / 1024).toFixed(1) });
+        }
+
+        uploadStatus.classList.add('hidden');
+        submitBtn.textContent = 'Submitting...';
+
+        // Step 2: send the form fields + file links (small, text-only payload) to Formspree.
+        const formData = new FormData();
+        formData.append('firstName', document.getElementById('firstName').value);
+        formData.append('lastName', document.getElementById('lastName').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('company', document.getElementById('company').value);
+
+        const optimizations = Array.from(document.querySelectorAll('input[name="optimization"]:checked'))
+          .map(cb => cb.value).join(', ');
+        formData.append('optimization', optimizations);
+
+        formData.append('problem', document.getElementById('problem').value);
+        formData.append('boundaryConditions', document.getElementById('boundaryConditions').value);
+        formData.append('simulationGoals', document.getElementById('simulationGoals').value);
+        formData.append('constraints', document.getElementById('constraints').value);
+        formData.append('timeline', selectedTimeline);
+        formData.append('nda', document.getElementById('nda').checked ? 'Yes' : 'No');
+
+        if (fileLinks.length === 0) {
+          formData.append('files', 'No files uploaded');
+        }
+        fileLinks.forEach((f, idx) => {
+          formData.append('file_' + (idx + 1) + '_name', f.name);
+          formData.append('file_' + (idx + 1) + '_size_mb', f.sizeMB);
+          formData.append('file_' + (idx + 1) + '_url', f.url);
+        });
+
+        const response = await fetch('https://formspree.io/f/mykqgyra', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          document.getElementById('formContainer').classList.add('hidden');
+          document.getElementById('successMessage').classList.remove('hidden');
+          document.getElementById('successEmail').textContent = document.getElementById('email').value;
+          document.getElementById('thankYouModal').classList.remove('hidden');
+        } else {
+          throw new Error('Form submission failed (status ' + response.status + ')');
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        uploadStatus.classList.add('hidden');
+        alert('Error submitting form: ' + error.message + '. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit intake form';
+      }
+    });
+
+    // Update submit button state based on consent checkboxes
+    function updateSubmitButton() {
+      const consent1 = document.getElementById('consent1').checked;
+      const consent2 = document.getElementById('consent2').checked;
+      document.getElementById('submitBtn').disabled = !(consent1 && consent2);
+    }
+
+    document.getElementById('consent1').addEventListener('change', updateSubmitButton);
+    document.getElementById('consent2').addEventListener('change', updateSubmitButton);
+    updateSubmitButton();
+
+    // Thank you popup close
+    document.getElementById('modalCloseBtn').addEventListener('click', () => {
+      document.getElementById('thankYouModal').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
