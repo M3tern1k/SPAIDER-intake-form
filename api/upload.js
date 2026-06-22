@@ -1,6 +1,6 @@
 import { handleUpload } from '@vercel/blob/client';
 
-export default async function handler(request) {
+export default async function handler(request, response) {
   try {
     const body = await request.json();
 
@@ -22,9 +22,12 @@ export default async function handler(request) {
       },
     });
 
-    return Response.json(jsonResponse);
+    return response.status(200).json(jsonResponse);
   } catch (error) {
+    // Logged here so the real cause shows up in Vercel's function logs —
+    // the @vercel/blob client SDK only shows a generic "Failed to retrieve
+    // the client token" message in the browser regardless of the reason.
     console.error('Blob upload token error:', error);
-    return Response.json({ error: error.message || String(error) }, { status: 400 });
+    return response.status(400).json({ error: error.message || String(error) });
   }
 }
