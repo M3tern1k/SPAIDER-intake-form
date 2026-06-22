@@ -538,7 +538,9 @@
     let uploadModulePromise = null;
     function getUploadFn() {
       if (!uploadModulePromise) {
-        uploadModulePromise = import('https://esm.sh/@vercel/blob@2.4.1/client').then(m => m.upload);
+        // jsdelivr's "+esm" build bundles the module into a single file (unlike esm.sh,
+        // which fetches many small dependency chunks separately and is more fragile).
+        uploadModulePromise = import('https://cdn.jsdelivr.net/npm/@vercel/blob@2.4.1/client/+esm').then(m => m.upload);
       }
       return uploadModulePromise;
     }
